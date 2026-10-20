@@ -1,0 +1,35 @@
+# Change this to your PERSONAL GitHub project's URL.
+project_url: https://github.com/users/YOUR_USERNAME/projects/1
+namespace: workshop-demo
+initial_status: Todo
+# The workflow always uses the repository containing this file.
+tasks:
+  - id: registration-form
+    title: Build workshop registration form
+    description: Collect attendee name and email for a workshop.
+    priority: High
+    acceptance_criteria:
+      - Name and a valid email are required.
+      - A successful save displays confirmation.
+      - Invalid input displays a clear error.
+    validation: Submit valid and invalid registrations.
+    depends_on: []
+  - id: capacity-waitlist
+    title: Enforce 30 seats and add a waitlist
+    description: Confirm up to 30 attendees and waitlist additional registrations.
+    priority: High
+    acceptance_criteria:
+      - Concurrent submissions never create more than 30 confirmed attendees.
+      - Additional successful registrations receive a waitlist acknowledgment.
+    validation: Submit concurrent registrations with 29 confirmed seats already taken.
+    depends_on: [registration-form]
+  - id: csv-export
+    title: Export attendee and waitlist CSV
+    description: Give authorized organizers a downloadable roster.
+    priority: Medium
+    acceptance_criteria:
+      - Export includes name, email, and confirmed or waitlisted status.
+      - Unauthorized visitors cannot export the roster.
+      - Commas and quotes are escaped and spreadsheet formulas are neutralized.
+    validation: Export sample records and test an unauthorized download request.
+    depends_on: [registration-form, capacity-waitlist]
